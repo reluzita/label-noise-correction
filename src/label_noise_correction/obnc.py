@@ -16,6 +16,7 @@ class OrderingBasedCorrection(LabelCorrectionModel):
         Proportion of labels to correct
     """
     def __init__(self, m):
+        super().__init__('OBNC')
         self.m = m
 
     def calculate_margins(self, X, y, bagging:BaggingClassifier):
@@ -47,5 +48,5 @@ class OrderingBasedCorrection(LabelCorrectionModel):
         return y_corrected
     
     def log_params(self):
-        mlflow.log_param('correction_alg', 'Ordering-Based Correction')
+        mlflow.log_param('correction_alg', self.name)
         mlflow.log_param('m', self.m)

@@ -20,6 +20,7 @@ class SelfTrainingCorrection(LabelCorrectionModel):
         Percentage of labels to correct
     """
     def __init__(self, classifier, n_folds, correction_rate):
+        super().__init__('STC')
         self.classifier = classifier
         self.n_folds = n_folds
         self.correction_rate = correction_rate
@@ -85,7 +86,7 @@ class SelfTrainingCorrection(LabelCorrectionModel):
         return pd.Series(y_corrected, index=original_index)
 
     def log_params(self):
-        mlflow.log_param('correction_alg', 'Self-Training Correction')
+        mlflow.log_param('correction_alg', self.name)
         mlflow.log_param('correction_classifier', self.classifier.__name__)
         mlflow.log_param('n_folds', self.n_folds)
         mlflow.log_param('correction_rate', self.correction_rate)

@@ -19,6 +19,7 @@ class PolishingLabels(LabelCorrectionModel):
         Number of folds to use
     """
     def __init__(self, classifier, n_folds):
+        super().__init__('PL')
         self.classifier = classifier
         self.n_folds = n_folds
 
@@ -44,6 +45,6 @@ class PolishingLabels(LabelCorrectionModel):
         return pd.Series(y_corrected, index=original_index)
     
     def log_params(self):
-        mlflow.log_param('correction_alg', 'Polishing Labels')
+        mlflow.log_param('correction_alg', self.name)
         mlflow.log_param('correction_classifier', self.classifier.__name__)
         mlflow.log_param('n_folds', self.n_folds)

@@ -20,6 +20,7 @@ class ClusterBasedCorrection(LabelCorrectionModel):
         Number of clusters to use
     """
     def __init__(self, n_iterations, n_clusters):
+        super().__init__('CC')
         self.n_iterations = n_iterations
         self.n_clusters = n_clusters
 
@@ -62,6 +63,6 @@ class ClusterBasedCorrection(LabelCorrectionModel):
         return pd.Series(y_corrected, index=original_index)
 
     def log_params(self):
-        mlflow.log_param('correction_alg', 'Cluster-Based Correction')
+        mlflow.log_param('correction_alg', self.name)
         mlflow.log_param('n_iterations', self.n_iterations)
         mlflow.log_param('n_clusters', self.n_clusters)

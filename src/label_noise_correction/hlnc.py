@@ -20,6 +20,7 @@ class HybridLabelNoiseCorrection(LabelCorrectionModel):
         Number of clusters to use in KMeans clustering
     """
     def __init__(self, n_clusters):
+        super().__init__('HLNC')
         self.n_clusters = n_clusters
     
     def correct(self, X:pd.DataFrame, y:pd.Series):
@@ -89,5 +90,5 @@ class HybridLabelNoiseCorrection(LabelCorrectionModel):
         return pd.Series(y_corrected.values, index=original_index)
     
     def log_params(self):
-        mlflow.log_param('correction_alg', 'Hybrid Label Noise Correction')
+        mlflow.log_param('correction_alg', self.name)
         mlflow.log_param('n_clusters', self.n_clusters)

@@ -16,7 +16,7 @@ class FairOBNCRemoveSensitive(OrderingBasedCorrection):
         Name of sensitive attribute
     """
     def __init__(self, m, sensitive_attr):
-        super().__init__(m)
+        super().__init__('Fair-OBNC-rs', m)
         self.sensitive_attr = sensitive_attr
 
     def correct(self, X:pd.DataFrame, y:pd.Series):
@@ -33,7 +33,7 @@ class FairOBNCRemoveSensitive(OrderingBasedCorrection):
         return y_corrected
     
     def log_params(self):
-        mlflow.log_param('correction_alg', 'Fair-OBNC-rs')
+        mlflow.log_param('correction_alg', self.name)
         mlflow.log_param('m', self.m)
         mlflow.log_param('sensitive_attr', self.sensitive_attr)
 
@@ -51,7 +51,7 @@ class FairOBNCOptimizeDemographicParity(OrderingBasedCorrection):
         Probability of correcting a label that does not contribute to balancing label distribution across sensitive groups
     """
     def __init__(self, m:float, sensitive_attr:str, prob:float):
-        super().__init__(m)
+        super().__init__('Fair-OBNC-dp', m)
         self.sensitive_attr = sensitive_attr
         self.prob = prob
 
@@ -93,7 +93,7 @@ class FairOBNCOptimizeDemographicParity(OrderingBasedCorrection):
         return y_corrected
     
     def log_params(self):
-        mlflow.log_param('correction_alg', 'Fair-OBNC-dp')
+        mlflow.log_param('correction_alg', self.name)
         mlflow.log_param('m', self.m)
         mlflow.log_param('sensitive_attr', self.sensitive_attr)
         mlflow.log_param('prob', self.prob)
@@ -112,7 +112,7 @@ class FairOBNC(FairOBNCOptimizeDemographicParity):
         Probability of correcting a label that does not contribute to balancing label distribution across sensitive groups
     """
     def __init__(self, m:float, sensitive_attr:str, prob:float):
-        super().__init__(m, sensitive_attr, prob)
+        super().__init__('Fair-OBNC', m, sensitive_attr, prob)
 
     def correct(self, X:pd.DataFrame, y:pd.Series):
         y_corrected = y.copy()
@@ -147,7 +147,7 @@ class FairOBNC(FairOBNCOptimizeDemographicParity):
         return y_corrected
     
     def log_params(self):
-        mlflow.log_param('correction_alg', 'Fair-OBNC')
+        mlflow.log_param('correction_alg', self.name)
         mlflow.log_param('m', self.m)
         mlflow.log_param('sensitive_attr', self.sensitive_attr)
         mlflow.log_param('prob', self.prob)

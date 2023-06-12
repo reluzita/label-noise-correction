@@ -20,6 +20,7 @@ class BayesianEntropy(LabelCorrectionModel):
         Number of folds to use
     """
     def __init__(self, alpha, n_folds):
+        super().__init__('BE')
         self.alpha = alpha
         self.n_folds = n_folds
 
@@ -79,6 +80,6 @@ class BayesianEntropy(LabelCorrectionModel):
         
     
     def log_params(self):
-        mlflow.log_param('correction_alg', 'BE')
+        mlflow.log_param('correction_alg', self.name)
         mlflow.log_param('n_folds', self.n_folds)
         mlflow.log_param('alpha', self.alpha)
